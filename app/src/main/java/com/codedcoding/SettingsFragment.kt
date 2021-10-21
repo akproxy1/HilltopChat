@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment
+import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
@@ -36,10 +38,22 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         val autoDownload = sharedPreferences.getBoolean(getString(R.string.key_auto_download), false)
         Log.i("SettingsFragment", "Auto Download: $autoDownload")
+        
+        val statusPref = findPreference<EditTextPreference>(getString(R.string.key_status))
+        statusPref?.setOnPreferenceChangeListener { preference, newValue ->
 
+            val newStatus = newValue as String
+            if (newStatus.contains("bad")) {
+                Toast.makeText(context, "Inappropriate Status. Please maintain community guidelines.",
+                    Toast.LENGTH_SHORT).show()
 
+                false   // false: reject the new value.
+            } else {
+                true     // true: accept the new value.
+            }
+        }
 
     }
 
 
-}
+    }
