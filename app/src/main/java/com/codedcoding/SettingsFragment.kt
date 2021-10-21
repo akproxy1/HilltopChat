@@ -8,16 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment
-import androidx.preference.EditTextPreference
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
+import androidx.preference.*
 
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings, rootKey)
+
+        val dataStore = DataStore()
 
         val accSettingsPref = findPreference<Preference>(getString(R.string.key_account_settings))
         accSettingsPref?.setOnPreferenceClickListener {
@@ -53,7 +52,34 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
         }
 
+        val notificationPref = findPreference<SwitchPreferenceCompat>("key_new_msg_notif")
+        notificationPref?.summaryProvider = Preference.SummaryProvider<SwitchPreferenceCompat> { switchPref ->
+            if (switchPref?.isChecked!!)
+                "Switch: ON"
+            else
+                "Switch: OFF"
+        }
+        notificationPref?.preferenceDataStore = dataStore
+        val isNotifEnable = dataStore.getBoolean("key_new_msg_notif", false)
+
     }
 
+    class DataStore : PreferenceDataStore(){
+        // Override methods only as per your need.
+        // DO NOT override methods which you don't need to use.
+        // After overriding, remove the super call. (could throw UnsupportedOperationException)
+        override fun getBoolean(key: String?, defValue: Boolean): Boolean {
+            if (key == "key_new_msg_notif"){
+                //retrieve value from local or cloud db
+                Log.i("Datastore", "getBolean executed for $key")
+            }
+            return defValue
+        }
 
+        override fun putBoolean(key: String?, value: Boolean) {
+            // Save value to cloud or local db
+            Log.i("DataStore", "putBoolean executed for $key with new value: $value")
+        }
+
+    }
     }
