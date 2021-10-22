@@ -21,6 +21,12 @@
             android:title="@string/title_auto_reply"
             app:iconSpaceReserved="false" />
 
+        <SeekBarPreference
+            android:key="key_seek"
+            android:summary=""
+            android:title="Rating"
+            app:iconSpaceReserved="false" />
+
         <ListPreference
             android:dependency="@string/key_auto_reply"
             android:dialogTitle="@string/title_dialog_reply_time"
@@ -82,7 +88,7 @@
             app:iconSpaceReserved="false">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://www.codedcoding.com"/>
+                android:data="https://www.codedcoding.com" />
         </Preference>
 
 

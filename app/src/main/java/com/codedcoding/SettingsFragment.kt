@@ -62,6 +62,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
         notificationPref?.preferenceDataStore = dataStore
         val isNotifEnable = dataStore.getBoolean("key_new_msg_notif", false)
 
+        val seekBarM = findPreference<SeekBarPreference>("key_seek")
+        seekBarM?.summary = seekBarM?.value.toString()
+        seekBarM?.seekBarIncrement
+
     }
 
     class DataStore : PreferenceDataStore(){
